@@ -34,7 +34,13 @@ app.set('view engine', 'jade');
 // app.use('/', index);
 app.use('/todo', todo);
 
-var schema = new mongoose.Schema({ name: 'string', size: 'string' });
+var schema = new mongoose.Schema({ name: 'string', size: 'string' }, {
+  toObject: {
+    transform: function(doc, ret, opts) {
+      delete ret.__v;
+    }
+  }
+});
 var Tank = mongoose.model('Tank', schema);
 
 

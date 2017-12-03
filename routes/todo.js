@@ -14,12 +14,12 @@ router.get('/', function(req, res, next) {
 router.get('/:id', function(req, res, next) {
   Todo.findById(req.params.id, function(err, data) {
     if (err) { return res.status(500).json({ error: err.message }); };
-    data ? res.json(data.toObject()) : res.status(500).json({ message: 'not found' });
+    data ? res.json(data.toObject()) : res.status(500).json({ error: 'not found' });
   });
 });
 
 router.post('/', function(req, res, next) {
-  if (!req.body.title) { return res.status(500).json({error: 'title is required!'}) };
+  if (!req.body.title) { return res.status(500).json({ error: 'title is required!' }) };
   Todo.create({ title: req.body.title }, function(err, data) {
     if (err) { return res.status(500).json({ error: err.message }) };
     res.json(data);

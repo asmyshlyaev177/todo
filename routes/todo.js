@@ -39,7 +39,7 @@ router.patch('/:id', function(req, res, next) {
 });
 
 router.delete('/:id', function(req, res, next) {
-  Todo.deleteOne({ id: req.params.id }, function(err, data) {
+  Todo.deleteOne({ _id: req.params.id }, function(err, data) {
     if (err) { return res.status(500).json(err) };
     res.end(JSON.stringify(data));
   });

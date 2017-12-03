@@ -16,6 +16,7 @@ db.on('open', function() { console.log('connected to db!')});
 
 var index = require('./routes/index');
 var todo = require('./routes/todo');
+var task = require('./routes/task');
 
 var app = express();
 
@@ -35,6 +36,7 @@ var Todo = require('./models/todo');
 
 // app.use('/', index);
 app.use('/api/todo', todo);
+app.use('/api/task', task);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

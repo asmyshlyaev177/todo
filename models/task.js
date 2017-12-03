@@ -1,13 +1,11 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var Task = require('./task');
 
 var schema = new mongoose.Schema({
   title: String,
   created: { type: Date, default: Date.now, required: false },
   edited: { type: Date, default: Date.now, required: false },
-  completed: { type: Boolean, default: false },
-  tasks: [Task.schema]
+  completed: { type: Boolean, default: false }
 }, {
   toObject: {
     transform: function(doc, ret, opts) {
@@ -16,6 +14,6 @@ var schema = new mongoose.Schema({
   }
 });
 
-var Todo = mongoose.model('Todo', schema);
+var Task = mongoose.model('Task', schema);
 
-module.exports = Todo
+module.exports = { Task, schema }

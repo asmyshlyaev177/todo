@@ -4,9 +4,13 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+
+var dbUri = process.env.NODE_ENV === 'test'
+  ? 'mongodb://localhost:27017/todo-test'
+  : 'mongodb://localhost:27017/todo'
 var mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost:27017/todo',
+mongoose.connect(dbUri,
   {useMongoClient: true, reconnectTries: Number.MAX_VALUE,
     reconnectInterval: 500, keepAlive: true});
 var db = mongoose.connection;
@@ -23,7 +27,9 @@ app.set('db', db);
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
+process.env.NODE_ENV === 'test' 
+  ? app.use(logger('combined'))
+  : app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());

@@ -8,6 +8,7 @@ var chai = require('chai');
 var chaiHttp = require('chai-http');
 var app = require('../app');
 var should = chai.should();
+var expect = chai.expect;
 
 chai.use(chaiHttp);
 
@@ -18,15 +19,15 @@ describe('Todo', () => {
     });
   });
   
-  describe('get all todos', () => {
+  describe('/GET all todos', () => {
     it('it should GET all todos', done => {
       chai.request(app)
         .get('/api/todo')
         .end((err, res) => {
+          res.should.to.be.json;
           res.should.have.status(200);
-          res.body.should.be.a('array');
-          res.body.length.should.be.eql(0);
-        done();
+          res.body.should.to.be.an('array').that.is.empty;
+          done();
         });
     });
   });

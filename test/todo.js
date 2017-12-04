@@ -13,7 +13,7 @@ var expect = chai.expect;
 chai.use(chaiHttp);
 
 describe('Todo', () => {
-  beforeEach(done => {
+  before(done => {
     Todo.remove({}).then(err => {
       Task.remove({}, err => { done(); });
     });
@@ -27,6 +27,37 @@ describe('Todo', () => {
           res.should.to.be.json;
           res.should.have.status(200);
           res.body.should.to.be.an('array').that.is.empty;
+          done();
+        });
+    });
+  });
+
+  describe('/POST new todo', () => {
+    it('should not create todo without title', done => {
+      chai.request(app)
+        .post('/api/todo')
+        .send({ title: ''})
+        .end((err, res) => {
+          res.should.have.status(500);
+          res.body.should.to.have.own.property('error');
+          done();
+        });
+    });
+    it('should create todo with title', done => {
+      chai.request(app)
+        .post('/api/todo')
+        .send({ title: 'testTodo' })
+        .end(async function(err, res) {
+          res.should.have.status(200);
+          res.body.should.to.have.own.property('title', 'testTodo');
+          res.body.should.to.have.own.property('completed', false);
+          res.body.should.to.have.own.property('created');
+          res.body.should.to.have.own.property('edited');
+          res.body.should.to.have.own.property('tasks')
+            .that.is.to.be.an('array')
+            .that.is.empty;
+          let docCount = await Todo.count();
+          docCount.should.to.equal(1);
           done();
         });
     });

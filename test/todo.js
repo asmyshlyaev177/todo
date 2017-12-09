@@ -67,11 +67,14 @@ describe('Todo', () => {
           done();
         });
     });
+    var todoid;
+    var taskid;
     it('should get todo by id', done => {
       Todo.findOne()
         .then(todo => {
+        todoid = todo._id
         chai.request(app)
-          .get('/api/todo/' + todo._id)
+          .get('/api/todo/' + todoid)
           .end((err, res) => {
             res.should.be.json;
             res.should.have.status(200);
@@ -80,8 +83,33 @@ describe('Todo', () => {
           });
         })
     });
+    it('Should add a new task to todo', done => {
+      chai.request(app)
+        .post('/api/todo/' + todoid + '/task')
+        .send({ title: 'testtask1' })
+        .end((err, res) => {
+          res.should.be.json;
+          res.should.have.status(200);
+          taskid = res.body._id;
+          res.body.should.have.own.property('title', 'testtask1')
+          done();
+        });
+    });
+    it('Should have new task in todo', done => {
+      chai.request(app)
+        .get('/api/todo/' + todoid)
+        .end((err, res) => {
+          res.should.be.json;
+          res.should.have.status(200);
+          res.body.should.have.own.property('_id');
+          expect(todoid === res.body._id);
+          var task = res.body.tasks[0];
+          expect(task._id === taskid);
+          done();
+        });
+    });
+
+
   });
 
 });
-
-// process.exit(0);

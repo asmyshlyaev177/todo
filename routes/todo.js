@@ -4,14 +4,14 @@ var Todo = require('../models/todo');
 var Task = require('../models/task').Task;
 
 router.get('/', function(req, res, next) {
-  Todo.find({}).populate('tasks') .exec(function(err, data) {
+  Todo.find({}).populate('tasks').exec(function(err, data) {
     if (err) { return res.status(500).json({ error: err.message }) };
     res.json(data.map(d => d ? d.toObject(): null) );
   });
 });
 
 router.get('/:todoid', function(req, res, next) {
-  Todo.findById(req.params.todoid, function(err, data) {
+  Todo.findById(req.params.todoid).populate('tasks').exec(function(err, data) {
     if (err) { return res.status(500).json({ error: err.message }); };
     data ? res.json(data.toObject()) : res.status(500).json({ error: 'not found' });
   });

@@ -24,6 +24,7 @@ var todo = require('./routes/todo');
 var app = express();
 
 app.set('db', db);
+app.db = db;
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));

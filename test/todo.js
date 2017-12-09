@@ -8,16 +8,22 @@ var chai = require('chai');
 var chaiHttp = require('chai-http');
 var app = require('../app');
 var should = chai.should();
+
 var expect = chai.expect;
 
 chai.use(chaiHttp);
+
+after(function() {
+  app.db.close();
+  process.exit(0);
+});
 
 describe('Todo', () => {
   before(done => {
     Todo.remove({}).then(err => {
       Task.remove({}, err => { done(); });
     });
-  });
+  })
   
   describe('/GET all todos', () => {
     it('it should GET all todos', done => {
@@ -77,3 +83,5 @@ describe('Todo', () => {
   });
 
 });
+
+// process.exit(0);

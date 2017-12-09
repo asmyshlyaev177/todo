@@ -108,6 +108,17 @@ describe('Todo', () => {
           done();
         });
     });
+    it('should change todo', done => {
+      chai.request(app)
+        .patch('/api/todo/' + todoid)
+        .send({ title: 'abcdef' })
+        .end((err, res) => {
+          res.should.be.json;
+          res.should.have.status(200);
+          res.body.should.have.own.property('title', 'abcdef');
+          done();
+        });
+    });
 
 
   });

@@ -61,6 +61,19 @@ describe('Todo', () => {
           done();
         });
     });
+    it('should get todo by id', done => {
+      Todo.findOne()
+        .then(todo => {
+        chai.request(app)
+          .get('/api/todo/' + todo._id)
+          .end((err, res) => {
+            res.should.be.json;
+            res.should.have.status(200);
+            res.body.should.have.own.property('title', 'testTodo');
+            done();
+          });
+        })
+    });
   });
 
 });

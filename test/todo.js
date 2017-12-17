@@ -22,7 +22,7 @@ after(() => {
   });
 })
 
-describe('Todo', () => {
+describe('Todo API', () => {
 
   var todoid;
   var taskid;

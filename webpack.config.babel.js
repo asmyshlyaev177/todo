@@ -7,6 +7,8 @@ const NpmInstallPlugin = require("npm-install-webpack-plugin");
 
 module.exports = {
   entry: [
+    // 'react-hot-loader/patch',
+    'webpack-dev-server/client?http://localhost:8080/',
     './src/index.js'
   ],
   devtool: "source-map",

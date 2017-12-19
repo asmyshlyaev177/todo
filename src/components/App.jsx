@@ -2,10 +2,24 @@ import React from 'react'
 import Header from 'components/Header'
 import Todo from 'components/Todo'
 import Btns from 'components/Btns'
+import 'font-awesome/css/font-awesome.css'
+import 'bulma/css/bulma.css'
+import axios from 'axios'
 
 class App extends React.Component {
   constructor(props) {
     super(props)
+  }
+
+  componentWillMount() {
+    axios.defaults.baseURL = 'http://127.0.0.1:3000/api/todo'
+    axios.defaults.timeout = 3000
+    this.getAllTodo()
+  }
+
+  getAllTodo() {
+    axios.get('/')
+      .then(res => console.log(res.data))
   }
 
   render() {

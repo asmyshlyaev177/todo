@@ -1,10 +1,13 @@
 import React from 'react'
-import Header from 'components/Header'
-import Todo from 'components/Todo'
-import Btns from 'components/Btns'
 import 'font-awesome/css/font-awesome.css'
 import 'bulma/css/bulma.css'
 import axios from 'axios'
+import Header from 'components/Header'
+import TodoList from 'components/TodoList'
+import Btns from 'components/Btns'
+import { connect } from 'react-redux'
+import { addAllTodo } from '../actions'
+
 
 class App extends React.Component {
   constructor(props) {
@@ -19,24 +22,26 @@ class App extends React.Component {
 
   getAllTodo() {
     axios.get('/')
-      .then(res => console.log(res.data))
+      .then(res => {
+        this.props.addAllTodo(res.data)
+      })
   }
+
 
   render() {
     return (
       <div>
 
         <Header />
-
-        <Btns />
+        <Btns count={ this.props.todos.length } />
 
         <div className="container is-centered is-fluid">
 
           <div className="section columns is-mobile is-multiline">
             <div className="column is-6-desktop is-12-mobile is-12-tablet">
 
-              <Todo />
-
+              <TodoList todos={ this.props.todos } />
+  
             </div>
           </div>
         </div>
@@ -45,6 +50,20 @@ class App extends React.Component {
   }
 }
 
-App.displayName = 'App'
+const mapStateToProps = state => {
+  return {
+    todos: state.todos
+  }
+}
 
+const mapDispatchToProps = dispatch => {
+  return {
+    addAllTodo: todos => {
+      dispatch(addAllTodo(todos))
+    }
+  }
+}
+
+App.displayName = 'App'
+App = connect(mapStateToProps, mapDispatchToProps)(App)
 export default App

@@ -1,29 +1,25 @@
 import React from 'react'
 import Task from 'components/Task'
 
-class Todo extends React.Component {
-  constructor(props) {
-    super(props)
-  }
+function Todo(props) {
+  return (
+    <div className="card">
+      <header className="card-header">
+        <p className="card-header-title is-centered">
+          { props.todo.title }
+        </p>
+      </header>
+      <div className="card-content container is-fluid is-block">
 
-  render() {
-    return (
-      <div className="card">
-        <header className="card-header">
-          <p className="card-header-title is-centered">
-            Component
-          </p>
-        </header>
-        <div className="card-content container is-fluid is-block">
+        { props.todo.tasks.map(task => 
+          <Task key={task._id} task={task} />
+        )}
 
-          <Task />
-
-        </div>
-        <footer className="card-footer">
-        </footer>
       </div>
-      )
-  }
+      <footer className="card-footer">
+      </footer>
+    </div>
+    )
 }
 
 Todo.displayName = 'Todo'

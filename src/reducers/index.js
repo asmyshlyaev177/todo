@@ -1,12 +1,7 @@
 import { addAllTodo, changeFilter } from '../actions'
 import { combineReducers } from 'redux'
 
-const initialState = {
-  todos: [],
-  filter: 'All'
-}
-
-const todos = (state = initialState, action) => {
+const todos = (state = [], action) => {
   switch (action.type) {
     case 'ADD_ALL_TODO':
       return Object.assign([], action.todos)

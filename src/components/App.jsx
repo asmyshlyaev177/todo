@@ -38,21 +38,19 @@ class App extends React.Component {
     }
   }
 
+
   render() {
     return (
       <div>
-
         <Header />
-        <Btns count={ this.props.todos.length } />
+        <Btns count={ this.todoFiltered().length } />
 
         <div className="container is-centered is-fluid">
 
           <div className="section columns is-mobile is-multiline">
-            <div className="column is-6-desktop is-12-mobile is-12-tablet">
 
-              <TodoList todos={ this.todoFiltered() } />
-  
-            </div>
+            <TodoList todos={ this.todoFiltered() } />
+
           </div>
         </div>
       </div>

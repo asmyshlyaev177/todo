@@ -27,6 +27,16 @@ class App extends React.Component {
       })
   }
 
+  todoFiltered() {
+    switch (this.props.filter) {
+      case 'All':
+        return this.props.todos
+      case 'Pending':
+        return this.props.todos.filter(todo => !todo.completed)
+      case 'Completed':
+        return this.props.todos.filter(todo => todo.completed)
+    }
+  }
 
   render() {
     return (
@@ -40,7 +50,7 @@ class App extends React.Component {
           <div className="section columns is-mobile is-multiline">
             <div className="column is-6-desktop is-12-mobile is-12-tablet">
 
-              <TodoList todos={ this.props.todos } />
+              <TodoList todos={ this.todoFiltered() } />
   
             </div>
           </div>
@@ -52,7 +62,8 @@ class App extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    todos: state.todos
+    todos: state.todos,
+    filter: state.filter
   }
 }
 

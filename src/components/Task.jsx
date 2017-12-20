@@ -2,8 +2,6 @@ import React from 'react'
 
 function Task(props) {
 
-  console.log(props)
-
   return (
     <div className="columns task-body">
       <div className="notification task-text column is-11-desktop is-12-mobile is-11-tablet">

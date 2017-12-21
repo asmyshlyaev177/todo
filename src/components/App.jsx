@@ -1,12 +1,11 @@
 import React from 'react'
 import 'font-awesome/css/font-awesome.css'
 import 'bulma/css/bulma.css'
-import axios from 'axios'
 import Header from 'components/Header'
 import TodoList from 'components/TodoList'
 import Btns from 'components/Btns'
 import { connect } from 'react-redux'
-import { addAllTodo } from '../actions'
+import { fetchAllTodo } from '../actions'
 
 
 class App extends React.Component {
@@ -15,16 +14,7 @@ class App extends React.Component {
   }
 
   componentWillMount() {
-    axios.defaults.baseURL = 'http://127.0.0.1:3000/api/todo'
-    axios.defaults.timeout = 3000
-    this.getAllTodo()
-  }
-
-  getAllTodo() {
-    axios.get('/')
-      .then(res => {
-        this.props.addAllTodo(res.data)
-      })
+    this.props.fetchAllTodo
   }
 
   todoFiltered() {
@@ -67,10 +57,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    addAllTodo: todos => {
-      dispatch(addAllTodo(todos))
+    fetchAllTodo: dispatch(fetchAllTodo())
     }
-  }
 }
 
 App.displayName = 'App'

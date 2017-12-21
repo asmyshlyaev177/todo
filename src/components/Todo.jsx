@@ -13,7 +13,7 @@ function Todo(props) {
         <div className="card-content container is-fluid is-block">
 
           { props.todo.tasks.map(task => 
-          <Task key={task._id} task={task} />
+          <Task key={task._id} task={task} todoid={props.todo._id} />
           )}
 
         </div>

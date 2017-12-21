@@ -57,7 +57,7 @@ router.patch('/:todoid/task/:taskid', function(req, res, next) {
     if (err) { return res.status(500).json({ error: err.message }) };
     doc.title = req.body.title || doc.title;
     doc.edited = (new Date).toISOString();
-    doc.completed = req.body.completed || doc.completed;
+    doc.completed = req.body.hasOwnProperty('completed') ? req.body.completed : doc.completed;
     doc.save()
       .then(doc => res.json(doc.toObject()))
       .catch(err => res.status(500).json({ error: err.message }));

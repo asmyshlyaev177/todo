@@ -48,13 +48,13 @@ class Task extends React.Component {
       } else {
         console.log('confirm delete')
       }
-      this.setState((prevState, props) => ({ removing: false, editing: false, okHovered: false }) )
+      this.setState((prevState, props) => ({ removing: false, editing: false, okHovered: false, editHovered: true }) )
     }
 
     let handleEdit = () => {
       this.setState(
         (prevState, props) =>
-        ({ oldTaskText: this.taskText.innerText.slice(), editing: true, editHovered: false }) )
+        ({ oldTaskText: this.taskText.innerText.slice(), editing: true, editHovered: false, okHovered: true }) )
       this.taskText.focus()
     }
 
@@ -62,7 +62,11 @@ class Task extends React.Component {
       if (this.state.editing) {
         this.taskText.innerText = this.state.oldTaskText
       }
-      this.setState((prevState, props) => ({ removing: false, editing: false, cancelHovered: false }) )
+      this.setState((prevState, props) => ({ removing: false, editing: false, cancelHovered: false, removeHovered: true }) )
+    }
+
+    let handleRemove = () => {
+      this.setState((prevState, props) => ({ removing: true, removeHovered: false, cancelHovered: true}) )
     }
 
     btnsEditRemove = ( 
@@ -76,7 +80,7 @@ class Task extends React.Component {
         </span>
         <span className={ 'column is-inline-block has-text-centered is-12-desktop is-5-mobile is-12-tablet icon is-medium ' + removeClass }>
           <i className="fa fa-2x fa-trash-o btn"
-            onClick={ e => this.setState((prevState, props) => ({ removing: true, removeHovered: false }) )}
+            onClick={ e => handleRemove() }
             onMouseEnter={ e => this.setState((prevState, props) => ({ removeHovered: true }) )}
             onMouseLeave={ e => this.setState((prevState, props) => ({ removeHovered: false }) )}
           />

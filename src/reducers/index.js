@@ -6,14 +6,12 @@ const todos = (state = [], action) => {
     case 'ADD_ALL_TODO':
       return Object.assign([], action.todos)
     case 'UPDATE_TASK':
-      // console.log(action.todoid, '   ', action.taskid, '   ', action.task)
-      // console.log(state)
       return state.map(todo =>
 	      todo._id === action.todoid
-		    ? Object.assign({}, todo, { tasks: todo.tasks.map(
-		        t => t._id === action.taskid
-		        ? action.task
-		        : t)})
+		    ? Object.assign({}, todo, { tasks: todo.tasks.map(oldTask =>
+		      oldTask._id === action.taskid
+		      ? action.task : oldTask
+		    )})
 	      : todo
       )
 

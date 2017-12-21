@@ -9,12 +9,22 @@ class Task extends React.Component {
   }
 
   render() {
+    let textClass
+    let iconClass
+    if (this.props.task.completed) {
+      textClass = ''
+      iconClass = 'fa-check-circle'
+    } else {
+      textClass = ' has-text-weight-semibold'
+      iconClass = 'fa-circle-o'
+    }
     return (
-      <div className="columns task-body">
+      <div className="columns task-body is-mobile is-multiline">
+        <div className="check-icon-container column is-1-desktop is-1-tablet is-1-mobile">
+          <i className= { 'check-icon fa btn is-pulled-right ' + iconClass } />
+        </div>
         <div onClick={e => this.props.toggle()} 
-          className={ "notification task-text column is-11-desktop is-12-mobile is-11-tablet"
-          + String(!this.props.task.completed ? ' has-text-weight-semibold' : '') }>
-          <i className= { 'fa btn ' + String(this.props.task.completed ? 'fa-check-circle-o' : 'fa-circle-o') } />&nbsp;
+          className={ "column notification task-text is-10-desktop is-10-mobile is-10-tablet" + textClass }>
           { this.props.task.title }
         </div>
         <div className="column task-btns is-1-desktop is-1-tablet is-11-mobile has-text-centered-desktop-only">

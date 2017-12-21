@@ -14,8 +14,13 @@
   }
 }
 
+
 .add-todo-container {
   margin-top: 1.75rem;
+}
+
+.column.task-text, .column.task-btns, .column.check-icon-container {
+  padding: .25rem;
 }
 
 .column.notification.task-text, .check-icon-container, .check-icon {

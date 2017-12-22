@@ -1,4 +1,5 @@
 import React from 'react'
+import TaskBtns from './TaskBtns.jsx'
 import { connect } from 'react-redux'
 import { editTask, removeTask } from '../actions' 
 
@@ -10,16 +11,43 @@ class Task extends React.Component {
       hovered: false,
       editing: false,
       removing: false,
-      editHovered: false,
-      okHovered: false,
-      cancelHovered: false,
-      removeHovered: false,
       oldTaskText: ''
     }
+    this.btnEdit = this.btnEdit.bind(this)
+    this.btnRemove = this.btnRemove.bind(this)
+    this.btnConfirm = this.btnConfirm.bind(this)
+    this.btnCancel = this.btnCancel.bind(this)
   }
 
   componentWillMount() {
     this.setState({ oldTaskText: this.props.task.title.slice() })
+  }
+
+  btnConfirm() {
+    if (this.state.editing) {
+      if (this.state.oldTaskText !== this.taskText.innerText) {
+        this.props.editTask({ title: this.taskText.innerText.slice() })
+      }
+    } else {
+      this.props.removeTask()
+    }
+    this.setState({ removing: false, editing: false })
+  }
+
+  btnEdit() {
+    this.setState({ oldTaskText: this.taskText.innerText.slice(), editing: true })
+    this.taskText.focus()
+  }
+
+  btnCancel() {
+    if (this.state.editing) {
+      this.taskText.innerText = this.state.oldTaskText
+    }
+    this.setState({ removing: false, editing: false })
+  }
+
+  btnRemove() {
+    this.setState({ removing: true })
   }
 
   render() {
@@ -31,88 +59,6 @@ class Task extends React.Component {
     } else {
       textClass = ' has-text-weight-semibold'
       iconClass = 'fa-circle-o'
-    }
-    let btnsEditRemove
-    let btnsConfirm
-    let btns
-
-    let visibility = { visibility: this.state.hovered ? 'visible' : 'hidden' }
-    let editClass = this.state.editHovered ? 'has-text-info' : ''
-    let removeClass = this.state.removeHovered ? 'has-text-danger' : ''
-    let okClass = this.state.okHovered ? 'has-text-success' : ''
-    let cancelClass = this.state.cancelHovered ? 'has-text-danger' : ''
-
-    let handleConfirm = () => {
-      if (this.state.editing) {
-        if (this.state.oldTaskText !== this.taskText.innerText) {
-          this.props.editTask({ title: this.taskText.innerText.slice() })
-        }
-      } else {
-        this.props.removeTask()
-      }
-      this.setState((prevState, props) => ({ removing: false, editing: false, okHovered: false, editHovered: true }) )
-    }
-
-    let handleEdit = () => {
-      this.setState(
-        (prevState, props) =>
-        ({ oldTaskText: this.taskText.innerText.slice(), editing: true, editHovered: false, okHovered: true }) )
-      this.taskText.focus()
-    }
-
-    let handleCancel = () => {
-      if (this.state.editing) {
-        this.taskText.innerText = this.state.oldTaskText
-      }
-      this.setState((prevState, props) => ({ removing: false, editing: false, cancelHovered: false, removeHovered: true }) )
-    }
-
-    let handleRemove = () => {
-      this.setState((prevState, props) => ({ removing: true, removeHovered: false, cancelHovered: true}) )
-    }
-
-    btnsEditRemove = ( 
-      <div className="columns is-multiline" style={ visibility }>
-        <span className={ 'column is-inline-block has-text-centered is-12-desktop is-6-mobile is-12-tablet icon is-medium ' + editClass }>
-          <i className="fa fa-2x fa-pencil btn" 
-            onClick={ e => handleEdit() }
-            onMouseEnter={ e => this.setState((prevState, props) => ({ editHovered: true }) )}
-            onMouseLeave={ e => this.setState((prevState, props) => ({ editHovered: false }) )}
-          />
-        </span>
-        <span className={ 'column is-inline-block has-text-centered is-12-desktop is-5-mobile is-12-tablet icon is-medium ' + removeClass }>
-          <i className="fa fa-2x fa-trash-o btn"
-            onClick={ e => handleRemove() }
-            onMouseEnter={ e => this.setState((prevState, props) => ({ removeHovered: true }) )}
-            onMouseLeave={ e => this.setState((prevState, props) => ({ removeHovered: false }) )}
-          />
-        </span>
-      </div>
-     )
-
-    btnsConfirm = ( 
-      <div className="columns is-multiline">
-        <span className={ 'column is-inline-block has-text-centered is-12-desktop is-6-mobile is-12-tablet icon is-medium ' + okClass }>
-          <i className="fa fa-2x fa-check-square btn"
-            onClick={ e => handleConfirm() }
-            onMouseEnter={ e => this.setState((prevState, props) => ({ okHovered: true }) )}
-            onMouseLeave={ e => this.setState((prevState, props) => ({ okHovered: false }) )}
-          />
-        </span>
-        <span className={ 'column is-inline-block has-text-centered is-12-desktop is-5-mobile is-12-tablet icon is-medium ' + cancelClass }>
-          <i className="fa fa-2x fa-ban btn"
-            onClick={ e => handleCancel() }
-            onMouseEnter={ e => this.setState((prevState, props) => ({ cancelHovered: true }) )}
-            onMouseLeave={ e => this.setState((prevState, props) => ({ cancelHovered: false }) )}
-          />
-        </span>
-      </div>
-     )
-
-    if (this.state.editing || this.state.removing) {
-      btns = btnsConfirm
-    } else {
-      btns = btnsEditRemove
     }
 
     return (
@@ -134,7 +80,14 @@ class Task extends React.Component {
         </div>
         <div className="column task-btns is-1-desktop is-1-tablet is-11-mobile has-text-centered-desktop-only">
 
-          { btns }
+          <TaskBtns
+            hovered={this.state.hovered}
+            editing={this.state.editing || this.state.removing}
+            edit={this.btnEdit}
+            remove={this.btnRemove}
+            confirm={this.btnConfirm}
+            cancel={this.btnCancel}
+          />
 
         </div>
       </div>

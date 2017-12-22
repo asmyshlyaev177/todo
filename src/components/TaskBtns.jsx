@@ -1,6 +1,4 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { editTask, removeTask } from '../actions' 
 
 class TaskBtns extends React.Component {
   constructor(props) {

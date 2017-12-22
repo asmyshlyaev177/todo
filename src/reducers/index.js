@@ -14,6 +14,14 @@ const todos = (state = [], action) => {
 		    )})
 	      : todo
       )
+    case 'REMOVE_TASK':
+      return state.map(todo =>
+	      todo._id === action.todoid
+		    ? Object.assign({}, todo, { tasks: todo.tasks
+		      .filter(oldTask => oldTask._id !== action.taskid)
+		    })
+	      : todo
+      )
 
     default:
       return state

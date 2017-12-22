@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { toggleTask } from '../actions' 
+import { editTask, removeTask } from '../actions' 
 
 class Task extends React.Component {
 
@@ -44,9 +44,11 @@ class Task extends React.Component {
 
     let handleConfirm = () => {
       if (this.state.editing) {
-        console.log('confirm edit')
+        if (this.state.oldTaskText !== this.taskText.innerText) {
+          this.props.editTask({ title: this.taskText.innerText.slice() })
+        }
       } else {
-        console.log('confirm delete')
+        this.props.removeTask()
       }
       this.setState((prevState, props) => ({ removing: false, editing: false, okHovered: false, editHovered: true }) )
     }
@@ -122,7 +124,9 @@ class Task extends React.Component {
           <i className= { 'check-icon fa btn is-pulled-right ' + iconClass } />
         </div>
         <div
-          onClick={e => !(this.state.editing || this.state.removing) ? this.props.toggle() : false } 
+          onClick={e => !(this.state.editing || this.state.removing)
+            ? this.props.editTask({ completed: !this.props.task.completed })
+            : false } 
           className={ "column notification task-text is-10-desktop is-10-mobile is-10-tablet" + textClass }
           contentEditable={ this.state.editing } suppressContentEditableWarning={true}
           ref={ taskText => this.taskText = taskText }>
@@ -140,7 +144,12 @@ class Task extends React.Component {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    toggle: () => dispatch(toggleTask(ownProps.todoid, ownProps.task._id, !ownProps.task.completed))
+    editTask: payload => dispatch(
+      editTask( ownProps.todoid, ownProps.task._id, payload)
+    ),
+    removeTask: () => dispatch(
+      removeTask( ownProps.todoid, ownProps.task._id)
+    )
   }
 }
 

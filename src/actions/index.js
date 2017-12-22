@@ -15,11 +15,23 @@ export function changeFilter(filter) {
   return { type: 'CHANGE_FILTER', filter }
 }
 
-export function toggleTask(todoid, taskid, completed) {
+export function editTask(todoid, taskid, payload) {
   return function(dispatch) {
-    http.patch(`/${todoid}/task/${taskid}/`, { completed: completed })
+    http.patch(`/${todoid}/task/${taskid}/`, payload)
       .then(data => dispatch(updateTask(todoid, taskid, data.data)))
   }
+}
+
+export function removeTask(todoid, taskid, payload) {
+  return function(dispatch) {
+    http.delete(`/${todoid}/task/${taskid}/`)
+      .then(data => dispatch(removeTaskStore(todoid, taskid))
+      )
+  }
+}
+
+export function removeTaskStore(todoid, taskid) {
+  return { type: 'REMOVE_TASK', todoid, taskid }
 }
 
 export function updateTask(todoid, taskid, task) {

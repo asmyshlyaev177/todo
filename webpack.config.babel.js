@@ -6,7 +6,10 @@ const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const NpmInstallPlugin = require("npm-install-webpack-plugin");
 
 module.exports = {
-  entry: './src/index.js',
+  entry: [
+    'react-hot-loader/patch',
+    './src/index.js'
+  ],
   devtool: "source-map",
 
   output: {
@@ -31,8 +34,14 @@ module.exports = {
         {
           test: /\.css$/,
           use: ExtractTextPlugin.extract({
-            fallback: 'style-loader',
-            use: 'css-loader'
+            use: [{
+              loader: 'css-loader',
+              options: { sourceMap: true }
+            }],
+            fallback: [{
+              loader: 'style-loader',
+              options: { sourceMap: true }
+            }]
           })
         },
         {
@@ -90,6 +99,7 @@ module.exports = {
 
 	    devServer: {
 	      hot: true,
+	      port: 8000,
 	      inline: true,
 	      disableHostCheck: true,
 	      contentBase: './public',

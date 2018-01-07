@@ -44,16 +44,16 @@ class TaskBtns extends React.Component {
     }
 
     btnsEditRemove = ( 
-      <div className="columns is-multiline" style={ visibility }>
-        <span className={ 'column is-inline-block has-text-centered is-12-desktop is-6-mobile is-12-tablet icon is-medium ' + editClass }>
-          <i className="fa fa-2x fa-pencil btn" 
+      <div className="columns" style={ visibility }>
+        <span className={ 'column is-inline-block has-text-centered is-6-desktop is-6-mobile is-6-tablet icon is-medium ' + editClass }>
+          <i className="fa fa-pencil btn" 
             onClick={ e => handleEdit() }
             onMouseEnter={ e => this.setState((prevState, props) => ({ editHovered: true }) )}
             onMouseLeave={ e => this.setState((prevState, props) => ({ editHovered: false }) )}
           />
         </span>
-        <span className={ 'column is-inline-block has-text-centered is-12-desktop is-5-mobile is-12-tablet icon is-medium ' + removeClass }>
-          <i className="fa fa-2x fa-trash-o btn"
+        <span className={ 'column is-inline-block has-text-centered is-6-desktop is-5-mobile is-6-tablet icon is-medium ' + removeClass }>
+          <i className="fa fa-trash-o btn"
             onClick={ e => handleRemove() }
             onMouseEnter={ e => this.setState((prevState, props) => ({ removeHovered: true }) )}
             onMouseLeave={ e => this.setState((prevState, props) => ({ removeHovered: false }) )}
@@ -63,16 +63,16 @@ class TaskBtns extends React.Component {
       )
 
     btnsConfirm = ( 
-      <div className="columns is-multiline">
-        <span className={ 'column is-inline-block has-text-centered is-12-desktop is-6-mobile is-12-tablet icon is-medium ' + okClass }>
-          <i className="fa fa-2x fa-check-square btn"
+      <div className="columns">
+        <span className={ 'column is-inline-block has-text-centered is-6-desktop is-6-mobile is-6-tablet icon is-medium ' + okClass }>
+          <i className="fa fa-check-square btn"
             onClick={ e => handleConfirm() }
             onMouseEnter={ e => this.setState((prevState, props) => ({ okHovered: true }) )}
             onMouseLeave={ e => this.setState((prevState, props) => ({ okHovered: false }) )}
           />
         </span>
-        <span className={ 'column is-inline-block has-text-centered is-12-desktop is-5-mobile is-12-tablet icon is-medium ' + cancelClass }>
-          <i className="fa fa-2x fa-ban btn"
+        <span className={ 'column is-inline-block has-text-centered is-6-desktop is-5-mobile is-6-tablet icon is-medium ' + cancelClass }>
+          <i className="fa fa-ban btn"
             onClick={ e => handleCancel() }
             onMouseEnter={ e => this.setState((prevState, props) => ({ cancelHovered: true }) )}
             onMouseLeave={ e => this.setState((prevState, props) => ({ cancelHovered: false }) )}

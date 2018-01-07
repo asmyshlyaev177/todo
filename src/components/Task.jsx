@@ -61,6 +61,8 @@ class Task extends React.Component {
       iconClass = 'fa-circle-o'
     }
 
+    let btnsHeight = { height: this.state.hovered ? 'auto' : 0 }
+
     return (
       <div
         onMouseEnter={ e => this.setState((prevState, props) => ({ hovered: true }) )}
@@ -78,7 +80,8 @@ class Task extends React.Component {
           ref={ taskText => this.taskText = taskText }>
           { this.props.task.title }
         </div>
-        <div className="column task-btns is-1-desktop is-1-tablet is-11-mobile has-text-centered-desktop-only">
+        <div style={ btnsHeight }  
+          className="column task-btns is-1-desktop is-1-tablet is-11-mobile has-text-centered-desktop-only">
 
           <TaskBtns
             hovered={this.state.hovered}

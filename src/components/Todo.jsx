@@ -6,7 +6,7 @@ function Todo(props) {
     <div className="column is-6-desktop is-12-mobile is-12-tablet">
       <div className="card">
         <header className="card-header">
-          <p className="card-header-title is-centered">
+          <p className="task-title has-text-grey-darker card-header-title is-centered">
             { props.todo.title }
           </p>
         </header>

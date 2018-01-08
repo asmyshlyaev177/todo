@@ -43,16 +43,18 @@ class TaskBtns extends React.Component {
       this.setState({ removeHovered: false, cancelHovered: true })
     }
 
+    let commonClasses = 'column is-inline-block has-text-centered is-6-desktop is-6-mobile is-6-tablet icon is-medium task-icon '
+
     btnsEditRemove = ( 
       <div className="columns" style={ visibility }>
-        <span className={ 'column is-inline-block has-text-centered is-6-desktop is-6-mobile is-6-tablet icon is-medium ' + editClass }>
+        <span className={ commonClasses + editClass }>
           <i className="fa fa-pencil btn" 
             onClick={ e => handleEdit() }
             onMouseEnter={ e => this.setState((prevState, props) => ({ editHovered: true }) )}
             onMouseLeave={ e => this.setState((prevState, props) => ({ editHovered: false }) )}
           />
         </span>
-        <span className={ 'column is-inline-block has-text-centered is-6-desktop is-5-mobile is-6-tablet icon is-medium ' + removeClass }>
+        <span className={ commonClasses + removeClass }>
           <i className="fa fa-trash-o btn"
             onClick={ e => handleRemove() }
             onMouseEnter={ e => this.setState((prevState, props) => ({ removeHovered: true }) )}
@@ -64,14 +66,14 @@ class TaskBtns extends React.Component {
 
     btnsConfirm = ( 
       <div className="columns">
-        <span className={ 'column is-inline-block has-text-centered is-6-desktop is-6-mobile is-6-tablet icon is-medium ' + okClass }>
+        <span className={ commonClasses + okClass }>
           <i className="fa fa-check-square btn"
             onClick={ e => handleConfirm() }
             onMouseEnter={ e => this.setState((prevState, props) => ({ okHovered: true }) )}
             onMouseLeave={ e => this.setState((prevState, props) => ({ okHovered: false }) )}
           />
         </span>
-        <span className={ 'column is-inline-block has-text-centered is-6-desktop is-5-mobile is-6-tablet icon is-medium ' + cancelClass }>
+        <span className={ commonClasses + cancelClass }>
           <i className="fa fa-ban btn"
             onClick={ e => handleCancel() }
             onMouseEnter={ e => this.setState((prevState, props) => ({ cancelHovered: true }) )}

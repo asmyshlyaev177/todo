@@ -35,14 +35,18 @@
   padding: .25rem;
 }
 
+.task-text {
+  flex: auto!important;
+}
+
 .column.notification.task-text, .check-icon-container, .check-icon {
   margin-top: auto;
   margin-bottom: auto;
 }
 
-/* .check-icon-container { */
-/*   margin-left: -1.75rem; */
-/* } */
+.check-icon-container {
+  width: auto!important;
+}
 
 .columns.task-body {
   padding-top: 0.5rem;

@@ -8,7 +8,7 @@ const NpmInstallPlugin = require("npm-install-webpack-plugin");
 module.exports = {
   entry: [
     'babel-polyfill',
-    './reactapp/src/index.js'
+    './reactapp/index.js'
   ],
   devtool: "source-map",
 
@@ -131,7 +131,7 @@ module.exports = {
 	      port: 8000,
 	      inline: true,
 	      disableHostCheck: true,
-	      contentBase: './public',
+	      contentBase: './dist',
 	      historyApiFallback: true
 	    }
 

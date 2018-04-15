@@ -5,5 +5,5 @@ npm-debug.log*
 *.log
 package-lock.json
 data
-public/*
-!public/index.html
+dist/*
+!dist/index.html

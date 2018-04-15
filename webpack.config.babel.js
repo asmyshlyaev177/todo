@@ -7,13 +7,13 @@ const NpmInstallPlugin = require("npm-install-webpack-plugin");
 
 module.exports = {
   entry: [
-    'react-hot-loader/patch',
-    './src/index.js'
+    'babel-polyfill',
+    './reactapp/src/index.js'
   ],
   devtool: "source-map",
 
   output: {
-    path: path.resolve(__dirname, 'public'),
+    path: path.resolve(__dirname, 'dist'),
     filename: './app.bundle.js',
     publicPath: '/'
   },
@@ -22,45 +22,70 @@ module.exports = {
     rules: [{
       test: /\.jsx?$/,
       exclude: /node_modules/,
-      use: [
-        'react-hot-loader/webpack',
-        'babel-loader'
-      ]
+      loader: require.resolve('babel-loader'),
+      options: {
+        cacheDirectory: true,
+        plugins: ['react-hot-loader/babel']
+      }
     },
       {
         test: /\.less$/,
         loader: 'style-loader!css-loader!less-loader'
       },
-        {
-          test: /\.css$/,
-          use: ExtractTextPlugin.extract({
-            use: [{
-              loader: 'css-loader',
-              options: { sourceMap: true }
-            }],
-            fallback: [{
-              loader: 'style-loader',
-              options: { sourceMap: true }
-            }]
-          })
-        },
-        {
-          test: /\.js$/,
-          exclude: /node_modules/,
-          use: ['babel-loader']
-        },
-        {
-          test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/,
-          loader: 'file-loader',
-          options: {
-            name: '[name].[ext]'
+      {
+        test: /\.(scss|css)$/,
+        use: [
+          {
+            loader: require.resolve('style-loader'),
+          },
+          {
+            loader: "css-loader",
+            options: { sourceMap: true }
+          },
+          {
+            loader: "sass-loader",
+            options: { sourceMap: true }
+          },
+          {
+            loader: "postcss-loader",
+            options: {
+              sourceMap: true,
+              ident: 'postcss',
+              plugins: (loader) => [
+                require('postcss-import')({ root: loader.resourcePath }),
+                require('postcss-flexbugs-fixes'),
+                require('postcss-cssnext')(),
+                require('autoprefixer')(
+                  {
+                    browsers: [
+                      '>1%',
+                      'last 4 versions',
+                      'Firefox ESR',
+                      'not ie < 9', // React doesn't support IE8 anyway
+                    ],
+                    flexbox: 'no-2009',
+                  },
+                )
+              ]
+            }
           }
+        ]
+        // fallback: [{
+        //   loader: 'css-loader'
+        // }]
+      },
+      {
+        test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/,
+        loader: 'file-loader',
+        options: {
+          name: '[name].[ext]'
         }
+      }
     ]
       },
       resolve: {
         modules: [
-          path.resolve(__dirname, 'src'),
+          path.resolve(__dirname, 'reactapp'),
           'node_modules'
         ],
         extensions: ['*', '.js', '.jsx', '.css'],
@@ -76,7 +101,11 @@ module.exports = {
               'NODE_ENV': JSON.stringify(process.env.NODE_ENV)
             }
           }),
-		      new ExtractTextPlugin("styles.css"),
+		      new ExtractTextPlugin({
+            disable: process.env.NODE_ENV !== 'production',
+		        filename: "styles.css",
+            allChunks : true
+		      }),
           new webpack.HotModuleReplacementPlugin(),
 		      new webpack.NoEmitOnErrorsPlugin()
         )
